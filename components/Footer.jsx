@@ -2,12 +2,12 @@ import styles from '../styles/Footer.module.css';
 
 const Footer = () => {
   return (
-    <footer class="footer spad">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-3 col-md-6 col-sm-6">
-                    <div class="footer__about">
-                        <div class="footer__about__logo">
+    <footer className="footer spad">
+        <div className="container">
+            <div className="row">
+                <div className="col-lg-3 col-md-6 col-sm-6">
+                    <div className="footer__about">
+                        <div className="footer__about__logo">
                             <a href="./index.html"><img src="asset/img/logo.png" alt=""/></a>
                         </div>
                         <ul>
@@ -18,8 +18,8 @@ const Footer = () => {
                     </div>
                 </div>
 
-                <div class="col-lg-4 offset-lg-1 col-md-6 col-sm-6">
-                    <div class="footer__widget">
+                <div className="col-lg-4 offset-lg-1 col-md-6 col-sm-6">
+                    <div className="footer__widget">
                         <h6>Useful Links</h6>
                         <ul>
                             <li><a href="#">About Us</a></li>
@@ -40,33 +40,33 @@ const Footer = () => {
                     </div>
                 </div>
 
-                <div class="col-lg-4 col-md-12">
-                    <div class="footer__widget">
+                <div className="col-lg-4 col-md-12">
+                    <div className="footer__widget">
                         <h6>Join Our Newsletter Now</h6>
                         <p>Get E-mail updates about our latest shop and special offers.</p>
                         <form action="#">
                             <input type="text" placeholder="Enter your mail"/>
-                            <button type="submit" class="site-btn">Subscribe</button>
+                            <button type="submit" className="site-btn">Subscribe</button>
                         </form>
-                        <div class="footer__widget__social">
-                            <a href="#"><i class="fa fa-facebook"></i></a>
-                            <a href="#"><i class="fa fa-instagram"></i></a>
-                            <a href="#"><i class="fa fa-twitter"></i></a>
-                            <a href="#"><i class="fa fa-pinterest"></i></a>
+                        <div className="footer__widget__social">
+                            <a href="#"><i className="fa fa-facebook"></i></a>
+                            <a href="#"><i className="fa fa-instagram"></i></a>
+                            <a href="#"><i className="fa fa-twitter"></i></a>
+                            <a href="#"><i className="fa fa-pinterest"></i></a>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="footer__copyright">
-                        <div class="footer__copyright__text">
+            <div className="row">
+                <div className="col-lg-12">
+                    <div className="footer__copyright">
+                        <div className="footer__copyright__text">
                             <p>
                                 Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | <b>TK</b>
                             </p>
                         </div>
-                        <div class="footer__copyright__payment"><img src="asset/img/payment-item.png" alt=""/></div>
+                        <div className="footer__copyright__payment"><img src="asset/img/payment-item.png" alt=""/></div>
                     </div>
                 </div>
             </div>
