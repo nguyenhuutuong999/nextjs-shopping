@@ -1,8 +1,7 @@
-import data from './data.json';
+import data from '../data.json';
 
-export function getProductsByCategory(category) {
-  const products = data.filter((product) => product.category === category);
-  return products;
+export function getProducts() {
+  return data;
 }
 
 export default function handler(req, res) {
@@ -10,7 +9,7 @@ export default function handler(req, res) {
     res.setHeader('Allow', ['GET']);
     res.status(405).json({ message: `Method ${req.method} is not allowed` });
   } else {
-    const products = getProductsByCategory(req.query.category);
+    const products = getProducts();
     res.status(200).json(products);
   }
 }

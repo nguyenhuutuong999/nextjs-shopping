@@ -1,3 +1,4 @@
+import Head from "next/head";
 import Link from "next/link";
 import { useSelector } from "react-redux";
 import styles from "../styles/Navbar.module.css";
@@ -11,7 +12,7 @@ const Navbar = () => {
 
   return (
     <>
-      <header className="header">
+      <div className="header">
         <div className="header__top">
           <div className="container">
             <div className="row">
@@ -111,7 +112,7 @@ const Navbar = () => {
             </li>
           </ul>
         </nav> */}
-      </header>
+      </div>
     </>
   );
 };
