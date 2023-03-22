@@ -1,24 +1,42 @@
-import Image from 'next/image';
-import { useDispatch } from 'react-redux';
-import { addToCart } from '../redux/cart.slice';
-import styles from '../styles/ProductCard.module.css';
+import Link from "next/link";
 
-const ProductCard = ({ product }) => {
-  const dispatch = useDispatch();
-
+const ProductCard = ({ product, index }) => {
   return (
-    <div className={styles.card}>
-      <Image src={product.image} height={300} width={220} />
-      <h4 className={styles.title}>{product.product}</h4>
-      <h5 className={styles.category}>{product.category}</h5>
-      <p>$ {product.price}</p>
-      <button
-        onClick={() => dispatch(addToCart(product))}
-        className={styles.button}
-      >
-        Add to Cart
-      </button>
-    </div>
+    <Link href={`/product/${encodeURIComponent(product.id)}`} style={{textDecoration: "none"}}>
+      <div className="featured__item">
+          <div
+            className="featured__item__pic set-bg"
+            style={{
+              backgroundImage: `url(${product?.list_img[0]?.url})`,
+              cursor: "pointer"
+            }}
+          >
+            <ul className="featured__item__pic__hover">
+              <li>
+                <a href="#">
+                  <i className="fa fa-heart"></i>
+                </a>
+              </li>
+              <li>
+                <a href="#">
+                  <i className="fa fa-retweet"></i>
+                </a>
+              </li>
+              <li>
+                <a href="#">
+                  <i className="fa fa-shopping-cart"></i>
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div className="featured__item__text">
+            <h6>
+              <a href="#">{index}</a>
+            </h6>
+            <h5>{`$${product.price}`}</h5>
+          </div>
+      </div>
+    </Link>
   );
 };
 

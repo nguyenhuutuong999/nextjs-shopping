@@ -1,16 +1,27 @@
+import Head from 'next/head';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
+import ProductCard from '../../components/ProductCard';
 import styles from '../../styles/ShopPage.module.css';
 import { getProducts } from '../api/category';
-import { getProductsById } from '../api/product/[product]';
+import Api from '../api/helper/product';
+import { getProductsById } from '../api/product/product';
 
-const CategoryPage = ({ product, date }) => {
+const CategoryPage = ({ product, relativeProducts }) => {
+  console.log('lastedProducts:', relativeProducts)
   console.log('product:', product)
   const router = useRouter();
 
   return (
     <>
-      <div>{date}</div>
+      <Head>
+        <title>{product.name}</title>
+        <meta name="description" content="some description here" />
+        <link
+          rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+        />
+      </Head>
       <section className="breadcrumb-section set-bg" data-setbg="img/breadcrumb.jpg">
         <div className="container">
           <div className="row">
@@ -37,31 +48,28 @@ const CategoryPage = ({ product, date }) => {
                     src="img/product/details/product-details-1.jpg" alt="" />
                 </div>
                 <div className="product__details__pic__slider owl-carousel">
-                  <img data-imgbigurl="img/product/details/product-details-2.jpg"
-                    src={"https://www.healthyeating.org/images/default-source/home-0.0/nutrition-topics-2.0/general-nutrition-wellness/2-2-2-2foodgroups_vegetables_detailfeature.jpg?sfvrsn=226f1bc7_6"} alt="" />
-                  {/* <Image src={product.image} alt=""/> */}
-                  <img data-imgbigurl="img/product/details/product-details-3.jpg"
-                    src="img/product/details/thumb-2.jpg" alt="" />
-                  <img data-imgbigurl="img/product/details/product-details-5.jpg"
-                    src="img/product/details/thumb-3.jpg" alt="" />
-                  <img data-imgbigurl="img/product/details/product-details-4.jpg"
-                    src="img/product/details/thumb-4.jpg" alt="" />
+                  <Image
+                    src={product.list_img[0].url}
+                    alt="My Image"
+                    width={400}
+                    height={400}
+                  />
                 </div>
               </div>
             </div>
             <div className="col-lg-6 col-md-6">
               <div className="product__details__text">
-                <h3>Vegetable’s Package</h3>
+                <h3>{product.name}</h3>
                 <div className="product__details__rating">
                   <i className="fa fa-star"></i>
                   <i className="fa fa-star"></i>
                   <i className="fa fa-star"></i>
                   <i className="fa fa-star"></i>
                   <i className="fa fa-star-half-o"></i>
-                  <span>(18 reviews)</span>
+                  <span>{product.reviews}</span>
                 </div>
-                <div className="product__details__price">{`$${product.price}`}</div>
-                <p>{product.describe}</p>
+                <div className="product__details__price">{ }</div>
+                <p></p>
                 <div className="product__details__quantity">
                   <div className="quantity">
                     <div className="pro-qty">
@@ -74,7 +82,7 @@ const CategoryPage = ({ product, date }) => {
                 <ul>
                   <li><b>Availability</b> <span>In Stock</span></li>
                   <li><b>Shipping</b> <span>01 day shipping. <samp>Free pickup today</samp></span></li>
-                  <li><b>Weight</b> <span>0.5 kg</span></li>
+                  <li><b>Weight</b> <span>{product.weight ? product.weight + "kg" : ''} </span></li>
                   <li><b>Share on</b>
                     <div className="share">
                       <a href="#"><i className="fa fa-facebook"></i></a>
@@ -106,24 +114,7 @@ const CategoryPage = ({ product, date }) => {
                   <div className="tab-pane active" id="tabs-1" role="tabpanel">
                     <div className="product__details__tab__desc">
                       <h6>Products Infomation</h6>
-                      <p>Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui.
-                        Pellentesque in ipsum id orci porta dapibus. Proin eget tortor risus. Vivamus
-                        suscipit tortor eget felis porttitor volutpat. Vestibulum ac diam sit amet quam
-                        vehicula elementum sed sit amet dui. Donec rutrum congue leo eget malesuada.
-                        Vivamus suscipit tortor eget felis porttitor volutpat. Curabitur arcu erat,
-                        accumsan id imperdiet et, porttitor at sem. Praesent sapien massa, convallis a
-                        pellentesque nec, egestas non nisi. Vestibulum ac diam sit amet quam vehicula
-                        elementum sed sit amet dui. Vestibulum ante ipsum primis in faucibus orci luctus
-                        et ultrices posuere cubilia Curae; Donec velit neque, auctor sit amet aliquam
-                        vel, ullamcorper sit amet ligula. Proin eget tortor risus.</p>
-                      <p>Praesent sapien massa, convallis a pellentesque nec, egestas non nisi. Lorem
-                        ipsum dolor sit amet, consectetur adipiscing elit. Mauris blandit aliquet
-                        elit, eget tincidunt nibh pulvinar a. Cras ultricies ligula sed magna dictum
-                        porta. Cras ultricies ligula sed magna dictum porta. Sed porttitor lectus
-                        nibh. Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a.
-                        Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui. Sed
-                        porttitor lectus nibh. Vestibulum ac diam sit amet quam vehicula elementum
-                        sed sit amet dui. Proin eget tortor risus.</p>
+                      <p>{product.description}</p>
                     </div>
                   </div>
                   <div className="tab-pane" id="tabs-2" role="tabpanel">
@@ -163,78 +154,17 @@ const CategoryPage = ({ product, date }) => {
             </div>
           </div>
           <div className="row">
-            <div className="col-lg-3 col-md-4 col-sm-6">
-              <div className="product__item">
-                <div className="product__item__pic set-bg" data-setbg="img/product/product-1.jpg">
-                  <ul className="product__item__pic__hover">
-                    <li><a href="#"><i className="fa fa-heart"></i></a></li>
-                    <li><a href="#"><i className="fa fa-retweet"></i></a></li>
-                    <li><a href="#"><i className="fa fa-shopping-cart"></i></a></li>
-                  </ul>
+            {
+              relativeProducts && relativeProducts.map((item, index) => (
+                <div className="col-lg-3 col-md-4 col-sm-6">
+                  <ProductCard product={item} index={index + 1} />
                 </div>
-                <div className="product__item__text">
-                  <h6><a href="#">1</a></h6>
-                  <h5>$30.00</h5>
-                </div>
-              </div>
-            </div>
-            <div className="col-lg-3 col-md-4 col-sm-6">
-              <div className="product__item">
-                <div className="product__item__pic set-bg" data-setbg="img/product/product-2.jpg">
-                  <ul className="product__item__pic__hover">
-                    <li><a href="#"><i className="fa fa-heart"></i></a></li>
-                    <li><a href="#"><i className="fa fa-retweet"></i></a></li>
-                    <li><a href="#"><i className="fa fa-shopping-cart"></i></a></li>
-                  </ul>
-                </div>
-                <div className="product__item__text">
-                  <h6><a href="#">2</a></h6>
-                  <h5>$30.00</h5>
-                </div>
-              </div>
-            </div>
-            <div className="col-lg-3 col-md-4 col-sm-6">
-              <div className="product__item">
-                <div className="product__item__pic set-bg" data-setbg="img/product/product-3.jpg">
-                  <ul className="product__item__pic__hover">
-                    <li><a href="#"><i className="fa fa-heart"></i></a></li>
-                    <li><a href="#"><i className="fa fa-retweet"></i></a></li>
-                    <li><a href="#"><i className="fa fa-shopping-cart"></i></a></li>
-                  </ul>
-                </div>
-                <div className="product__item__text">
-                  <h6><a href="#">3</a></h6>
-                  <h5>$30.00</h5>
-                </div>
-              </div>
-            </div>
-            <div className="col-lg-3 col-md-4 col-sm-6">
-              <div className="product__item">
-                <div className="product__item__pic set-bg" data-setbg="img/product/product-7.jpg">
-                  <ul className="product__item__pic__hover">
-                    <li><a href="#"><i className="fa fa-heart"></i></a></li>
-                    <li><a href="#"><i className="fa fa-retweet"></i></a></li>
-                    <li><a href="#"><i className="fa fa-shopping-cart"></i></a></li>
-                  </ul>
-                </div>
-                <div className="product__item__text">
-                  <h6><a href="#">4</a></h6>
-                  <h5>$30.00</h5>
-                </div>
-              </div>
-            </div>
+              ))
+            }
           </div>
         </div>
       </section>
     </>
-    // <div className={styles.container}>
-    //   <h1 className={styles.title}>Results for {router.query.category}</h1>
-    //   <div className={styles.cards}>
-    //     {products.map((product) => (
-    //       <ProductCard key={product.id} product={product} />
-    //     ))}
-    //   </div>
-    // </div>
   );
 };
 
@@ -243,21 +173,21 @@ export default CategoryPage;
 export async function getStaticProps(context) {
   const { params } = context
   const productId = params.productId;
-  const product = await getProductsById(productId);
-  let date = new Date().toISOString();
-  return { props: { product, date }, revalidate: 20 };
+  const product = await Api.getProductDetail(productId);
+  const relativeProducts = await Api.getLastedProducts();
+
+  return { 
+    props: { product: product.data.product[0], 
+    relativeProducts: relativeProducts.data.product }, 
+    revalidate: 20
+  };
 }
 
 export async function getStaticPaths() {
-  const products = await getProducts();
-
-  // Get the paths we want to pre-render based on posts
-  const paths = products.map((product) => ({
+  const { data } = await Api.getAllProducts();
+  const paths = data.product.map((product) => ({
     params: { productId: product.id.toString() },
   }))
 
-  // We'll pre-render only these paths at build time.
-  // { fallback: 'blocking' } will server-render pages
-  // on-demand if the path doesn't exist.
   return { paths, fallback: 'blocking' }
 }
