@@ -826,9 +826,9 @@ ol {
 }
 
 .featured__item__pic__hover {
+  margin-top: 10px;
   position: absolute;
   left: 0;
-  bottom: -60px;
   width: 100%;
   text-align: center;
   -webkit-transition: all, 0.5s;
@@ -850,13 +850,39 @@ ol {
   border-color: #833030;
 }
 
+.featured__item__pic__hover li:hover span {
+  background: #833030;
+  border-color: #833030;
+}
+
 .featured__item__pic__hover li:hover a i {
   color: #ffffff;
   -webkit-transform: rotate(360deg);
           transform: rotate(360deg);
 }
 
+.featured__item__pic__hover li:hover span i {
+  color: #ffffff;
+  -webkit-transform: rotate(360deg);
+          transform: rotate(360deg);
+}
+
 .featured__item__pic__hover li a {
+  font-size: 16px;
+  color: #1c1c1c;
+  height: 40px;
+  width: 40px;
+  line-height: 40px;
+  text-align: center;
+  border: 1px solid #ebebeb;
+  background: #ffffff;
+  display: block;
+  border-radius: 50%;
+  -webkit-transition: all, 0.5s;
+  transition: all, 0.5s;
+}
+
+.featured__item__pic__hover li span {
   font-size: 16px;
   color: #1c1c1c;
   height: 40px;
@@ -879,9 +905,17 @@ ol {
   transition: all, 0.3s;
 }
 
+.featured__item__pic__hover li span i {
+  position: relative;
+  -webkit-transform: rotate(0);
+          transform: rotate(0);
+  -webkit-transition: all, 0.3s;
+  transition: all, 0.3s;
+}
+
 .featured__item__text {
   text-align: center;
-  padding-top: 15px;
+  padding-top: 60px;
 }
 
 .featured__item__text h6 {

@@ -1,19 +1,25 @@
 import Head from "next/head";
 import Link from "next/link";
 import { useSelector } from "react-redux";
-import styles from "../styles/Navbar.module.css";
+import styles from "../../styles/BlogNavbar.module.css";
 
-const Navbar = () => {
+const BlogNavbar = () => {
   const cart = useSelector((state) => state.cart);
-
   const getItemsCount = () => {
     return cart.reduce((accumulator, item) => accumulator + item.quantity, 0);
   };
 
   return (
     <>
+      <Head>
+        <meta name="description" content="some description here" />
+        <link
+          rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+        />
+      </Head>
       <div className="header">
-        <div className="header__top">
+        <div className="header__top" style={{backgroundColor: '#e58080'}}>
           <div className="container">
             <div className="row">
               <div className="col-lg-6 col-md-6">
@@ -43,7 +49,6 @@ const Navbar = () => {
                     </a>
                   </div>
                   <div className="header__top__right__language">
-                    <img src="asset/img/language.png" alt="" />
                     <div>English</div>
                     <span className="arrow_carrot-down"></span>
                     <ul>
@@ -69,7 +74,7 @@ const Navbar = () => {
             <div className="row">
                 <div className="col-lg-3">
                     <div className="header__logo">
-                        <a href="./index.html"><img src="asset/img/logo.png" alt=""/></a>
+                        <a href="./index.html"></a>
                     </div>
                 </div>
                 <div className="col-lg-6">
@@ -86,7 +91,7 @@ const Navbar = () => {
                     <div className="header__cart">
                         <ul>
                             <li><a href="#"><i className="fa fa-heart"></i> <span>1</span></a></li>
-                            <li><a href="#"><i className="fa fa-shopping-bag"></i> <span>3</span></a></li>
+                            <li><Link href="/cart"><i className="fa fa-shopping-bag"></i> <span>{getItemsCount()}</span></Link></li>
                         </ul>
                         <div className="header__cart__price"><span>$10.00</span></div>
                     </div>
@@ -96,25 +101,9 @@ const Navbar = () => {
                 <i className="fa fa-bars"></i>
             </div>
         </div>
-        {/* <nav className={styles.navbar}>
-          <h6 className={styles.logo}>GamesKart</h6>
-          <ul className={styles.links}>
-            <li className={styles.navlink}>
-              <Link href="/">Home</Link>
-            </li>
-            <li className={styles.navlink}>
-              <Link href="/shop">Shop</Link>
-            </li>
-            <li className={styles.navlink}>
-              <Link href="/cart">
-                <a>Cart ({getItemsCount()})</a>
-              </Link>
-            </li>
-          </ul>
-        </nav> */}
       </div>
     </>
   );
 };
 
-export default Navbar;
+export default BlogNavbar;

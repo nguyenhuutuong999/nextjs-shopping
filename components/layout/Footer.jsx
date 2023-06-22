@@ -1,15 +1,15 @@
 import Link from 'next/link';
-import styles from '../styles/Footer.module.css';
+import styles from '../../styles/Footer.module.css';
 
 const Footer = () => {
   return (
-    <div className="footer spad">
+    <div className={`spad ${styles.footer}`}>
         <div className="container">
             <div className="row">
                 <div className="col-lg-3 col-md-6 col-sm-6">
                     <div className="footer__about">
                         <div className="footer__about__logo">
-                            <Link href="./index.html"><img src="asset/img/logo.png" alt=""/></Link>
+                            <Link href="./index.html"></Link>
                         </div>
                         <ul>
                             <li>Address: 1317 Harry Place 28204 NC</li>
@@ -67,7 +67,7 @@ const Footer = () => {
                                 Copyright All rights reserved | <b>TK</b>
                             </p>
                         </div>
-                        <div className="footer__copyright__payment"><img src="asset/img/payment-item.png" alt=""/></div>
+                        <div className="footer__copyright__payment"></div>
                     </div>
                 </div>
             </div>

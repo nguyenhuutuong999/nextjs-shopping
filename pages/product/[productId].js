@@ -1,21 +1,21 @@
 import Head from 'next/head';
 import Image from 'next/image';
-import { useRouter } from 'next/router';
 import ProductCard from '../../components/ProductCard';
-import styles from '../../styles/ShopPage.module.css';
-import { getProducts } from '../api/category';
 import Api from '../api/helper/product';
-import { getProductsById } from '../api/product/product';
+import Layout from "../../components/layout/Layout";
+import BannerLayout from '../../components/layout/BannerLayout';
+import { useRouter } from 'next/router';
 
 const CategoryPage = ({ product, relativeProducts }) => {
-  console.log('lastedProducts:', relativeProducts)
-  console.log('product:', product)
   const router = useRouter();
 
+  if(router.isFallback)
+    return <h1>Loading....</h1>
+  
   return (
     <>
       <Head>
-        <title>{product.name}</title>
+        <title>{product?.name}</title>
         <meta name="description" content="some description here" />
         <link
           rel="stylesheet"
@@ -49,7 +49,7 @@ const CategoryPage = ({ product, relativeProducts }) => {
                 </div>
                 <div className="product__details__pic__slider owl-carousel">
                   <Image
-                    src={product.list_img[0].url}
+                    src={product?.list_img[0]?.url}
                     alt="My Image"
                     width={400}
                     height={400}
@@ -59,14 +59,14 @@ const CategoryPage = ({ product, relativeProducts }) => {
             </div>
             <div className="col-lg-6 col-md-6">
               <div className="product__details__text">
-                <h3>{product.name}</h3>
+                <h3>{product?.name}</h3>
                 <div className="product__details__rating">
                   <i className="fa fa-star"></i>
                   <i className="fa fa-star"></i>
                   <i className="fa fa-star"></i>
                   <i className="fa fa-star"></i>
                   <i className="fa fa-star-half-o"></i>
-                  <span>{product.reviews}</span>
+                  <span>{product?.reviews}</span>
                 </div>
                 <div className="product__details__price">{ }</div>
                 <p></p>
@@ -82,7 +82,7 @@ const CategoryPage = ({ product, relativeProducts }) => {
                 <ul>
                   <li><b>Availability</b> <span>In Stock</span></li>
                   <li><b>Shipping</b> <span>01 day shipping. <samp>Free pickup today</samp></span></li>
-                  <li><b>Weight</b> <span>{product.weight ? product.weight + "kg" : ''} </span></li>
+                  <li><b>Weight</b> <span>{product?.weight ? product?.weight + "kg" : ''} </span></li>
                   <li><b>Share on</b>
                     <div className="share">
                       <a href="#"><i className="fa fa-facebook"></i></a>
@@ -114,7 +114,7 @@ const CategoryPage = ({ product, relativeProducts }) => {
                   <div className="tab-pane active" id="tabs-1" role="tabpanel">
                     <div className="product__details__tab__desc">
                       <h6>Products Infomation</h6>
-                      <p>{product.description}</p>
+                      <p>{product?.description}</p>
                     </div>
                   </div>
                   <div className="tab-pane" id="tabs-2" role="tabpanel">
@@ -168,13 +168,17 @@ const CategoryPage = ({ product, relativeProducts }) => {
   );
 };
 
-export default CategoryPage;
-
 export async function getStaticProps(context) {
   const { params } = context
   const productId = params.productId;
   const product = await Api.getProductDetail(productId);
   const relativeProducts = await Api.getLastedProducts();
+  
+  if(product.data.product.length === 0){
+    return{
+      notFound: true
+    }
+  }
 
   return { 
     props: { product: product.data.product[0], 
@@ -185,9 +189,20 @@ export async function getStaticProps(context) {
 
 export async function getStaticPaths() {
   const { data } = await Api.getAllProducts();
-  const paths = data.product.map((product) => ({
+  const paths = data.product.slice(2,6).map((product) => ({
     params: { productId: product.id.toString() },
   }))
-
-  return { paths, fallback: 'blocking' }
+  return { paths, fallback: true }
 }
+
+CategoryPage.getLayout = function getLayout(page) {
+  return (
+    <Layout>
+      <BannerLayout>
+        {page}
+      </BannerLayout>
+    </Layout>
+  )
+}
+
+export default CategoryPage;

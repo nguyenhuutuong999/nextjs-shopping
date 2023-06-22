@@ -1,10 +1,18 @@
 import Head from 'next/head';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
+import BannerLayout from '../components/layout/BannerLayout';
+import Layout from '../components/layout/Layout';
 import ProductCard from '../components/ProductCard';
 import { Lp1, Lp2, Lp3 } from './../asset/img/latest-product';
 import { pd1, pd2, pd3, pd4, pd5, pd6 } from "./../asset/img/product/discount";
 import Api from './api/helper/product';
+import { Open_Sans } from 'next/font/google'
+
+const openSans = Open_Sans({
+    weight: '300',
+    subsets: ['latin'],
+})
 
 const Shop1 = ({ data }) => {
     const [category, setCategory] = useState("");
@@ -16,7 +24,7 @@ const Shop1 = ({ data }) => {
     }, [])
 
     useEffect(() => {
-        if(featureProduct)
+        if (featureProduct)
             Api.getProductsByCategory(featureProduct).then(res => {
                 setProduct(res.data.category)
             });
@@ -32,7 +40,7 @@ const Shop1 = ({ data }) => {
                     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
                 />
             </Head>
-            <section className="product spad">
+            <section className={openSans.className}>
                 <div className="container">
                     <div className="row">
                         <div className="col-lg-3 col-md-5">
@@ -40,11 +48,18 @@ const Shop1 = ({ data }) => {
                                 <div className="sidebar__item">
                                     <h4>Department</h4>
                                     <ul>
+                                        <li
+                                            className="text-capitalize pe-auto"
+                                            style={{ cursor: "pointer" }}
+                                            onClick={() => setFeatureProduct("")}
+                                        >
+                                            All
+                                        </li>
                                         {category && category.map(item => {
                                             return (
                                                 <li
                                                     className="text-capitalize pe-auto"
-                                                    style={{cursor: "pointer"}}
+                                                    style={{ cursor: "pointer" }}
                                                     onClick={() => setFeatureProduct(item.category.id)}
                                                 >
                                                     {item.category.name}
@@ -372,12 +387,12 @@ const Shop1 = ({ data }) => {
                                 </div>
                             </div>
                             <div className="row">
-                                {product ? 
+                                {product && featureProduct !== "" ?
                                     product[0].products && product[0].products.map((item, index) => (
                                         <div className="col-lg-4 col-md-6 col-sm-6">
                                             <ProductCard product={item} index={index + 1} />
                                         </div>
-                                    )) : 
+                                    )) :
                                     data.product && data.product.map((item, index) => (
                                         <div className="col-lg-4 col-md-6 col-sm-6">
                                             <ProductCard product={item} index={index + 1} />
@@ -402,6 +417,16 @@ const Shop1 = ({ data }) => {
 export async function getStaticProps() {
     const { data } = await Api.getAllProducts();
     return { props: { data } };
+}
+
+Shop1.getLayout = function getLayout(page) {
+    return (
+        <Layout>
+            <BannerLayout>
+                {page}
+            </BannerLayout>
+        </Layout>
+    )
 }
 
 export default Shop1;

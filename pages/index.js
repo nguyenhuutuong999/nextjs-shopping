@@ -1,16 +1,24 @@
-import styles from "../styles/Home.module.css";
 import Image from "next/image";
 import { Lp1, Lp2, Lp3 } from "./../asset/img/latest-product";
-import { Blog1, Blog2, Blog3, Blog4, Blog5 } from "./../asset/img/blog";
-import { f1, f2, f3, f4, f5, f6, f7, f8 } from "./../asset/img/featured";
+import { Blog1, Blog2, Blog3 } from "./../asset/img/blog";
 import FeatureProducts from "../components/home/FeaturedProducts";
 import Head from "next/head";
 import Api from "./api/helper/product";
+import { Roboto } from 'next/font/google'
+import Layout from "../components/layout/Layout";
+import BannerLayout from "../components/layout/BannerLayout";
+import Link from "next/link";
+import { SessionProvider, useSession } from "next-auth/react"
+
+const roboto = Roboto({
+  weight: '400',
+  subsets: ['latin'],
+})
 
 const HomePage = ({ data }) => {
-  console.log('data:', data)
+
   return (
-    <div>
+    <div className={roboto.className}>
       <Head>
         <title>Home</title>
         <meta name="description" content="some description here" />
@@ -19,26 +27,24 @@ const HomePage = ({ data }) => {
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
         />
       </Head>
-      <main className={styles.container}>
+      <main>
         <FeatureProducts products={data.product} />
         <div className="banner">
           <div className="container">
             <div className="row">
               <div className="col-lg-6 col-md-6 col-sm-6">
                 <div className="banner__pic">
-                  <img src="img/banner/banner-1.jpg" alt="" />
                 </div>
               </div>
               <div className="col-lg-6 col-md-6 col-sm-6">
                 <div className="banner__pic">
-                  <img src="img/banner/banner-2.jpg" alt="" />
                 </div>
               </div>
             </div>
           </div>
         </div>
         <section className="latest-product spad">
-          <div className="container">
+          <div className='container'>
             <div className="row">
               <div className="col-lg-4 col-md-6">
                 <div className="latest-product__text">
@@ -251,7 +257,7 @@ const HomePage = ({ data }) => {
               <div className="col-lg-4 col-md-4 col-sm-6">
                 <div className="blog__item">
                   <div className="blog__item__pic">
-                    <Image src={Blog1} alt="" />
+                    <Image src={Blog1} alt="" placeholder="blur" width={370} height={266}/>
                   </div>
                   <div className="blog__item__text">
                     <ul>
@@ -275,7 +281,8 @@ const HomePage = ({ data }) => {
               <div className="col-lg-4 col-md-4 col-sm-6">
                 <div className="blog__item">
                   <div className="blog__item__pic">
-                    <Image src={Blog2} alt="" />
+                    {/* <Image src={Blog1} alt="" placeholder="blur" /> */}
+                    <img src={Blog1.src} width={370} height={266} />
                   </div>
                   <div className="blog__item__text">
                     <ul>
@@ -299,7 +306,7 @@ const HomePage = ({ data }) => {
               <div className="col-lg-4 col-md-4 col-sm-6">
                 <div className="blog__item">
                   <div className="blog__item__pic">
-                    <Image src={Blog3} alt="" />
+                    <Image src={Blog3} alt="" placeholder="blur" />
                   </div>
                   <div className="blog__item__text">
                     <ul>
@@ -328,9 +335,24 @@ const HomePage = ({ data }) => {
   );
 };
 
-export async function getServerSideProps() {
+export async function getServerSideProps({ req, res }) {
+  res.setHeader(
+    'Cache-Control',
+    'public, s-maxage=10, stale-while-revalidate=59'
+  )
+  
   const { data } = await Api.getFeaturedProducts();
   return { props: { data } };
+}
+
+HomePage.getLayout = function getLayout(page) {
+  return (
+    <Layout>
+      <BannerLayout>
+        {page}
+      </BannerLayout>
+    </Layout>
+  )
 }
 
 export default HomePage;

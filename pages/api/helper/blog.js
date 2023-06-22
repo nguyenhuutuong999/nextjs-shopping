@@ -1,5 +1,4 @@
 import Axios from "axios";
-import { useNotificationStore } from "@dafcoe/vue-notification";
 
 const configInterceptor = () => {
   const axios = Axios.create({
@@ -24,21 +23,10 @@ const configInterceptor = () => {
   axios.interceptors.response.use(
     (res) => {
       if (res.data?.errors) {
-        const { setNotification } = useNotificationStore();
-        setNotification({
-          message: "Can't load Blog section",
-          duration: 10000,
-          type: "alert",
-        });
+        console.log(err)
       } else return res.data;
     },
     (error) => {
-      const { setNotification } = useNotificationStore();
-      setNotification({
-        message: "Can't load Blog section",
-        duration: 10000,
-        type: "alert",
-      });
       return Promise.reject(error);
     }
   );

@@ -6,6 +6,7 @@ import {
   removeFromCart,
 } from '../redux/cart.slice';
 import styles from '../styles/CartPage.module.css';
+import Layout from "../components/layout/Layout";
 
 const CartPage = () => {
   const cart = useSelector((state) => state.cart);
@@ -35,9 +36,9 @@ const CartPage = () => {
           {cart.map((item) => (
             <div className={styles.body}>
               <div className={styles.image}>
-                <Image src={item.image} height="90" width="65" />
+                <Image src={item.list_img[0].url} height="90" width="65" />
               </div>
-              <p>{item.product}</p>
+              <p>{item.name}</p>
               <p>$ {item.price}</p>
               <p>{item.quantity}</p>
               <div className={styles.buttons}>
@@ -60,5 +61,13 @@ const CartPage = () => {
     </div>
   );
 };
+
+CartPage.getLayout = function getLayout(page) {
+  return (
+    <Layout>
+      {page}
+    </Layout>
+  )
+}
 
 export default CartPage;

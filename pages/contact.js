@@ -1,6 +1,18 @@
+import Head from "next/head";
+import Layout from "../components/layout/Layout";
+
 const Contact = () => {
   return (
     <>
+     <Head>
+        <title>Home</title>
+        <meta name="description" content="some description here" />
+        <link
+          rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+        />
+        <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap" rel="stylesheet"></link>
+      </Head>
       <section
         className="breadcrumb-section set-bg"
         data-setbg="asset/img/breadcrumb.jpg"
@@ -55,16 +67,15 @@ const Contact = () => {
         </div>
       </section>
       <div className="map">
-        {/* <iframe
+        <iframe
           src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d10962.792225115849!2d15.6691062!3d46.6129698!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x88c2cb1d6206b041%3A0x80c71d39fbc13e9!2sHarry%20Pl%2C%20Thonotosassa%2C%20FL%2033527%2C%20USA!5e0!3m2!1sen!2ssi!4v1592214730014!5m2!1sen!2ssi"
           width="600"
           height="450"
           frameborder="0"
-          style="border:0;"
           allowfullscreen=""
           aria-hidden="false"
           tabindex="0"
-        ></iframe> */}
+        ></iframe>
         <div className="map-inside">
           <i className="icon_pin"></i>
           <div className="inside-widget">
@@ -106,5 +117,13 @@ const Contact = () => {
     </>
   );
 };
+
+Contact.getLayout = function getLayout(page) {
+  return (
+    <Layout>
+      {page}
+    </Layout>
+  )
+}
 
 export default Contact;

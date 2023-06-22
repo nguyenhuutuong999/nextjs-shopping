@@ -1,8 +1,8 @@
-import data from '../data.json';
+import data from './auth.json';
 
-export function getProductsById(productId) {
-  const product = data.find((product) => product.id == productId);
-  return product;
+export function login(username, password) {
+  const user = data?.user?.find((user) => user.username == username && user.password === password);
+  return user;
 }
 
 export default function handler(req, res) {
